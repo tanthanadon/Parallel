@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <omp.h>
+
 int main(){
 	int i;
 	int sum = 0;
@@ -6,16 +9,21 @@ int main(){
         srand(1234);    /* Set random seed */
         for(i=0; i<100; i++){
                 A[i] = (rand()%1000); /*Set each element rndomly to 0-999 */
-                printf("%d\n", A[i]);
+                if(A[i]>m){
+			m = A[i];
+		}
         }
+	
+	printf("Finding Max sequentially = %d\n", m);
 
 	#pragma omp parallel for reduction(max: m)
         for(i=0; i<100; i++){
-                printf("thread id = %d and i = %d\n", omp_get_thread_num(), i);
+		int tid = omp_get_thread_num();
                 if(A[i] >= 500){
                   m = A[i];
                 }
+		printf("Thread num = %d, current maximum value = %d\n", tid, m);
         }
-	printf("%d\n", m);
+	printf("Find maximum value of A by using parallelism = %d\n", m);
 
 }
