@@ -15,11 +15,11 @@ int main(){
         }
 	
 	printf("Finding Max sequentially = %d\n", m);
-
+	m = 0;
 	#pragma omp parallel for reduction(max: m)
         for(i=0; i<100; i++){
 		int tid = omp_get_thread_num();
-                if(A[i] >= 500){
+                if(A[i] > m){
                   m = A[i];
                 }
 		printf("Thread num = %d, current maximum value = %d\n", tid, m);
