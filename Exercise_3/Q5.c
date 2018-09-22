@@ -60,9 +60,6 @@ int main (int argc, char* argv[]){
 	// Send chunkSize elments that is the sammation of each rank back to global_sum chunkSize elements in master process
 	MPI_Gather(&local_sum, chunkSize, MPI_INT, &global_sum, chunkSize, MPI_INT, 0, MPI_COMM_WORLD);
 	
-	// Wait all process finish MPI_Gather()
-	MPI_Barrier( MPI_COMM_WORLD);
-
 	if( rank == 0){
 		total = 0;
 		for( i = 0; i < N; i++){
